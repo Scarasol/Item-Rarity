@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "com.scarasol.itemrarity.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "item_rarity.refmap.json",
+  "mixins": [
+    "ItemStackMixin"
+  ],
+  "client": [
+    "AbstractContainerScreenAccessor",
+    "AbstractContainerScreenMixin",
+    "CreativeModeInventoryScreenMixin",
+    "GuiMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

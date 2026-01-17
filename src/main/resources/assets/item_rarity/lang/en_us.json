@@ -1,0 +1,5 @@
+{
+  "key.categories.item_rarity": "Item Rarity",
+  "key.item_rarity.edit_switch": "Cycle current rarity (Edit Mode)",
+  "tooltip.item_rarity.button": "Press %s to switch rarity (Edit Mode)"
+}
