@@ -54,6 +54,7 @@ public class ItemRarityMod
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::register);
+        modEventBus.addListener(this::registerClient);
         NetworkHandler.addNetworkMessage();
     }
 
@@ -62,6 +63,10 @@ public class ItemRarityMod
         ItemStackUtil.registerGetter();
         ModGson.INSTANCE.register();
 
+    }
+
+    public void registerClient(FMLClientSetupEvent event) {
+        ItemStackUtil.registerClientGetter();
     }
 
 }

@@ -1,15 +1,21 @@
 package com.scarasol.itemrarity.data;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.scarasol.itemrarity.ItemRarityMod;
 import com.scarasol.itemrarity.api.rarity.SearchableRarityData;
 import com.scarasol.itemrarity.api.serialization.JsonData;
 import com.scarasol.itemrarity.api.serialization.JsonTypeId;
+import com.scarasol.itemrarity.compat.tag_editor.TagEditorCompat;
 import com.scarasol.itemrarity.data.serialization.RarityGradeJson;
 import com.scarasol.itemrarity.util.RarityGradeUtil;
 import com.scarasol.itemrarity.util.io.ModGson;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,14 +41,22 @@ public class RarityGrade implements Comparable<RarityGrade>, JsonData, Searchabl
     private final int grade;
     private final ResourceLocation renderPath;
     private final String color;
+    private final float opacity;
     private transient boolean needSave = false;
+    private transient TagKey<Item> tagKey;
 
     public static boolean renderBackground(ItemStack itemStack, ResourceLocation id, GuiGraphics guiGraphics, int x, int y, int width, int height){
-        RarityGrade rarityGrade = RarityGradeUtil.getRarityGrade(id);
+        RarityGrade rarityGrade = RarityGradeUtil.getRarityGrade(itemStack, id);
         if (rarityGrade != null) {
             ResourceLocation resourceLocation = rarityGrade.getRenderPath();
             if (resourceLocation != null) {
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+                float opacity = rarityGrade.getOpacity() == 0 ? 1 : rarityGrade.getOpacity();
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, opacity);
                 guiGraphics.blit(rarityGrade.getRenderPath(), x, y, 0, 0, width, height, width, height);
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.disableBlend();
                 return true;
             }
         }
@@ -50,7 +64,7 @@ public class RarityGrade implements Comparable<RarityGrade>, JsonData, Searchabl
     }
 
     public static String getFontColor(ItemStack itemStack, ResourceLocation id) {
-        RarityGrade rarityGrade = RarityGradeUtil.getRarityGrade(id);
+        RarityGrade rarityGrade = RarityGradeUtil.getRarityGrade(itemStack, id);
         if (rarityGrade != null) {
             return rarityGrade.getColor();
         }
@@ -59,11 +73,13 @@ public class RarityGrade implements Comparable<RarityGrade>, JsonData, Searchabl
 
 
 
-    public RarityGrade(String id, int grade, ResourceLocation renderPath, String color) {
+    public RarityGrade(String id, int grade, ResourceLocation renderPath, String color, float opacity) {
         this.id = id;
         this.grade = grade;
         this.renderPath = renderPath;
         this.color = color;
+        this.tagKey = TagKey.create(Registries.ITEM, new ResourceLocation(id));
+        this.opacity = opacity;
     }
 
     public void registerRarityGrade(RarityGradeJson rarityGradeJson) {
@@ -72,7 +88,22 @@ public class RarityGrade implements Comparable<RarityGrade>, JsonData, Searchabl
         }
     }
 
+    public boolean contains(ItemStack itemStack, ResourceLocation resourceLocation) {
+        if (itemStack.is(getTagKey())) {
+            return true;
+        }
+        String modid = resourceLocation.getNamespace();
+        RarityGradeJson rarityGradeJson = itemIds.get(modid);
+        if (rarityGradeJson == null) {
+            return false;
+        }
+        return rarityGradeJson.resourceLocations().contains(resourceLocation);
+    }
+
     public boolean contains(ResourceLocation resourceLocation) {
+        if (ModList.get().isLoaded("tag_editor") && TagEditorCompat.hasTag(getTagKey(), resourceLocation)) {
+            return true;
+        }
         String modid = resourceLocation.getNamespace();
         RarityGradeJson rarityGradeJson = itemIds.get(modid);
         if (rarityGradeJson == null) {
@@ -82,6 +113,9 @@ public class RarityGrade implements Comparable<RarityGrade>, JsonData, Searchabl
     }
 
     public void add(ResourceLocation resourceLocation) {
+        if (ModList.get().isLoaded("tag_editor")) {
+            TagEditorCompat.addTag(resourceLocation, getTagKey());
+        }
         String modid = resourceLocation.getNamespace();
         RarityGradeJson set = itemIds.get(modid);
         if (set != null) {
@@ -94,6 +128,9 @@ public class RarityGrade implements Comparable<RarityGrade>, JsonData, Searchabl
     }
 
     public void remove(ResourceLocation resourceLocation) {
+        if (ModList.get().isLoaded("tag_editor")) {
+            TagEditorCompat.removeTag(resourceLocation, getTagKey());
+        }
         String modid = resourceLocation.getNamespace();
         RarityGradeJson set = itemIds.get(modid);
         if (set != null) {
@@ -149,6 +186,21 @@ public class RarityGrade implements Comparable<RarityGrade>, JsonData, Searchabl
 
     public void setNeedSave(boolean needSave) {
         this.needSave = needSave;
+    }
+
+    public TagKey<Item> getTagKey() {
+        if (tagKey == null) {
+            tagKey = TagKey.create(Registries.ITEM, new ResourceLocation(getId()));
+        }
+        return tagKey;
+    }
+
+    public void setTagKey(TagKey<Item> tagKey) {
+        this.tagKey = tagKey;
+    }
+
+    public float getOpacity() {
+        return opacity;
     }
 
     @Override

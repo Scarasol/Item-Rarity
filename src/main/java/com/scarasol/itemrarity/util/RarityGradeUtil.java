@@ -31,7 +31,14 @@ public class RarityGradeUtil {
         if (id == null) {
             return null;
         }
-        return getRarityGrade(id);
+        return getRarityGrade(itemStack, id);
+    }
+
+    @Nullable
+    public static RarityGrade getRarityGrade(ItemStack itemStack, ResourceLocation id) {
+        return RarityManager.getRarityDataRegisterData(RarityGrade.class).stream()
+                .filter(rarityGrade -> rarityGrade.contains(itemStack, id))
+                .findFirst().orElse(null);
     }
 
     @Nullable
@@ -82,11 +89,11 @@ public class RarityGradeUtil {
 
     public static void init(Path root) throws IOException {
         Files.createDirectories(root);
-        RarityGrade uncommon = new RarityGrade("uncommon", 1, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_1v2.png"), "#1EFF00");
-        RarityGrade rare = new RarityGrade("rare", 2, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_2v2.png"), "#0070DD");
-        RarityGrade epic = new RarityGrade("epic", 3, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_3v2.png"), "#A335EE");
-        RarityGrade legendary = new RarityGrade("legendary", 4, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_4v2.png"), "#FF8000");
-        RarityGrade artifact = new RarityGrade("artifact", 5, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_5v2.png"), "#C62828");
+        RarityGrade uncommon = new RarityGrade("uncommon", 1, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_1v2.png"), "#1EFF00", 1.0F);
+        RarityGrade rare = new RarityGrade("rare", 2, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_2v2.png"), "#0070DD", 1.0F);
+        RarityGrade epic = new RarityGrade("epic", 3, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_3v2.png"), "#A335EE", 1.0F);
+        RarityGrade legendary = new RarityGrade("legendary", 4, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_4v2.png"), "#FF8000", 1.0F);
+        RarityGrade artifact = new RarityGrade("artifact", 5, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_5v2.png"), "#C62828", 1.0F);
         ModGson.INSTANCE.write(uncommon.getPath(), uncommon);
         ModGson.INSTANCE.write(rare.getPath(), rare);
         ModGson.INSTANCE.write(epic.getPath(), epic);

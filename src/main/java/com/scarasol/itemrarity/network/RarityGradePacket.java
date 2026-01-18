@@ -1,12 +1,10 @@
 package com.scarasol.itemrarity.network;
 
 import com.scarasol.itemrarity.ItemRarityMod;
-import com.scarasol.itemrarity.api.network.NetDataPack;
 import com.scarasol.itemrarity.data.RarityGrade;
 import com.scarasol.itemrarity.data.RarityManager;
 import com.scarasol.itemrarity.util.RarityGradeUtil;
 import com.scarasol.itemrarity.util.io.ModGson;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -18,7 +16,6 @@ import net.minecraftforge.network.PacketDistributor;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 

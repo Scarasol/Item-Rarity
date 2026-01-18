@@ -1,6 +1,7 @@
 package com.scarasol.itemrarity.event;
 
 import com.scarasol.itemrarity.ItemRarityMod;
+import com.scarasol.itemrarity.compat.tag_editor.TagEditorCompat;
 import com.scarasol.itemrarity.data.RarityGrade;
 import com.scarasol.itemrarity.data.RarityManager;
 import com.scarasol.itemrarity.data.serialization.JsonTypeRegistry;
@@ -13,7 +14,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -27,7 +30,7 @@ import java.io.IOException;
 @Mod.EventBusSubscriber
 public class EventHandler {
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void loadRarity(TagsUpdatedEvent event) {
         if (event.getUpdateCause() == TagsUpdatedEvent.UpdateCause.SERVER_DATA_LOAD) {
             RarityManager.clear(RarityGrade.class);
@@ -36,6 +39,10 @@ public class EventHandler {
                 ModGson.INSTANCE.loadAll(FMLPaths.CONFIGDIR.get().resolve(ItemRarityMod.MODID).resolve("grade"));
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+            if (ModList.get().isLoaded("tag_editor")) {
+                RarityManager.getRarityDataRegisterData(RarityGrade.class)
+                        .forEach(TagEditorCompat::addRarityTag);
             }
             RarityGradeUtil.INIT = true;
         }

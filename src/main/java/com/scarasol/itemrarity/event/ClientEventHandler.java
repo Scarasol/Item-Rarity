@@ -95,7 +95,7 @@ public class ClientEventHandler {
 
         ResourceLocation id = ItemStackUtil.getId(itemStack);
         if (!BUFFER.containsKey(id)) {
-            BUFFER.put(id, RarityGradeUtil.getRarityGrade(id));
+            BUFFER.put(id, RarityGradeUtil.getRarityGrade(itemStack, id));
         }
         RarityGradeUtil.changeRarityGrade(id, RARITY_GRADE_LIST.get(COUNT), true);
 

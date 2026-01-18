@@ -34,6 +34,10 @@ public class ItemStackUtil {
         if (ModList.get().isLoaded("tacz")) {
             TaczCompat.registerGetter();
         }
+
+    }
+
+    public static void registerClientGetter() {
         RarityManager.registerRarityData(BackGroundRenderGetter.class, RarityGrade::renderBackground);
         RarityManager.registerRarityData(FontColorGetter.class, RarityGrade::getFontColor);
     }
