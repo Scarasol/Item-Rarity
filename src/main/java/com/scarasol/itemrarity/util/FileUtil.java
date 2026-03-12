@@ -27,7 +27,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class ConfigDownloadUtil {
+/**
+ * @author Scarasol
+ */
+public class FileUtil {
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
