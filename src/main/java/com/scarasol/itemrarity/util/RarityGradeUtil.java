@@ -2,6 +2,7 @@ package com.scarasol.itemrarity.util;
 
 import com.google.common.collect.Sets;
 import com.scarasol.itemrarity.ItemRarityMod;
+import com.scarasol.itemrarity.configuration.CommonConfig;
 import com.scarasol.itemrarity.data.RarityGrade;
 import com.scarasol.itemrarity.data.RarityManager;
 import com.scarasol.itemrarity.data.serialization.RarityGradeJson;
@@ -89,25 +90,28 @@ public class RarityGradeUtil {
 
     public static void init(Path root) throws IOException {
         Files.createDirectories(root);
-        RarityGrade uncommon = new RarityGrade("uncommon", 1, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_1v2.png"), "#1EFF00", 1.0F);
-        RarityGrade rare = new RarityGrade("rare", 2, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_2v2.png"), "#0070DD", 1.0F);
-        RarityGrade epic = new RarityGrade("epic", 3, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_3v2.png"), "#A335EE", 1.0F);
-        RarityGrade legendary = new RarityGrade("legendary", 4, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_4v2.png"), "#FF8000", 1.0F);
-        RarityGrade artifact = new RarityGrade("artifact", 5, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_5v2.png"), "#C62828", 1.0F);
+        RarityGrade uncommon = new RarityGrade("uncommon", 1, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_1v4.png"), "#1EFF00", 0.75F);
+        RarityGrade rare = new RarityGrade("rare", 2, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_2v4.png"), "#0070DD", 0.75F);
+        RarityGrade epic = new RarityGrade("epic", 3, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_3v4.png"), "#A335EE", 0.75F);
+        RarityGrade legendary = new RarityGrade("legendary", 4, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_4v4.png"), "#FF8000", 0.75F);
+        RarityGrade artifact = new RarityGrade("artifact", 5, new ResourceLocation(ItemRarityMod.MODID, "screen/grade/rarity_5v4.png"), "#C62828", 0.75F);
         ModGson.INSTANCE.write(uncommon.getPath(), uncommon);
         ModGson.INSTANCE.write(rare.getPath(), rare);
         ModGson.INSTANCE.write(epic.getPath(), epic);
         ModGson.INSTANCE.write(legendary.getPath(), legendary);
         ModGson.INSTANCE.write(artifact.getPath(), artifact);
-        RarityGradeJson uncommonJson = new RarityGradeJson("minecraft", "uncommon", Sets.newHashSet(new ResourceLocation("stone_sword")));
-        RarityGradeJson rareJson = new RarityGradeJson("minecraft", "rare", Sets.newHashSet(new ResourceLocation("iron_sword"), new ResourceLocation("golden_sword")));
-        RarityGradeJson epicJson = new RarityGradeJson("minecraft", "epic", Sets.newHashSet(new ResourceLocation("diamond_sword")));
-        RarityGradeJson legendaryJson = new RarityGradeJson("minecraft", "legendary", Sets.newHashSet(new ResourceLocation("netherite_sword")));
-        RarityGradeJson artifactJson = new RarityGradeJson("minecraft", "artifact", Sets.newHashSet(new ResourceLocation("trident")));
-        ModGson.INSTANCE.write(uncommonJson.getPath(), uncommonJson);
-        ModGson.INSTANCE.write(rareJson.getPath(), rareJson);
-        ModGson.INSTANCE.write(epicJson.getPath(), epicJson);
-        ModGson.INSTANCE.write(legendaryJson.getPath(), legendaryJson);
-        ModGson.INSTANCE.write(artifactJson.getPath(), artifactJson);
+        if (!CommonConfig.AUTO_DOWNLOAD.get()) {
+            RarityGradeJson uncommonJson = new RarityGradeJson("minecraft", "uncommon", Sets.newHashSet(new ResourceLocation("stone_sword")));
+            RarityGradeJson rareJson = new RarityGradeJson("minecraft", "rare", Sets.newHashSet(new ResourceLocation("iron_sword"), new ResourceLocation("golden_sword")));
+            RarityGradeJson epicJson = new RarityGradeJson("minecraft", "epic", Sets.newHashSet(new ResourceLocation("diamond_sword")));
+            RarityGradeJson legendaryJson = new RarityGradeJson("minecraft", "legendary", Sets.newHashSet(new ResourceLocation("netherite_sword")));
+            RarityGradeJson artifactJson = new RarityGradeJson("minecraft", "artifact", Sets.newHashSet(new ResourceLocation("trident")));
+            ModGson.INSTANCE.write(uncommonJson.getPath(), uncommonJson);
+            ModGson.INSTANCE.write(rareJson.getPath(), rareJson);
+            ModGson.INSTANCE.write(epicJson.getPath(), epicJson);
+            ModGson.INSTANCE.write(legendaryJson.getPath(), legendaryJson);
+            ModGson.INSTANCE.write(artifactJson.getPath(), artifactJson);
+        }
+
     }
 }

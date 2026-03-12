@@ -1,4 +1,14 @@
 {
+  "item_rarity.command.download.error": "[万象棱镜] 错误：所有下载源均失败，请检查网络连接。",
+  "item_rarity.command.download.extract_empty": "[万象棱镜] 智能解压完成：压缩包中没有包含你当前所安装模组的配置文件。",
+  "item_rarity.command.download.extract_skipped": "[万象棱镜] （由于未选择覆盖，已跳过 %s 个已存在配置的模组）",
+  "item_rarity.command.download.extract_success": "[万象棱镜] 智能解压完成：共为 %2$s 个已安装的模组适配并更新了 %1$s 个配置文件。",
+  "item_rarity.command.download.not_found": "[万象棱镜] 云端不存在 %s 的相关文件，请检查该模组id是否拼写正确。",
+  "item_rarity.command.download.reload_hint": "请使用 /reload 命令或重启游戏以装载新的配置文件。",
+  "item_rarity.command.download.start_all": "[万象棱镜] 开始下载所有的配置文件压缩包...",
+  "item_rarity.command.download.start_single": "[万象棱镜] 开始尝试下载 %s 的配置文件...",
+  "item_rarity.command.download.success_all": "[万象棱镜] 压缩包下载成功！保存路径：%s",
+  "item_rarity.command.download.success_single": "[万象棱镜] 下载成功！共保存了 %s 个文件。",
   "key.categories.item_rarity": "万象棱镜",
   "key.item_rarity.edit_switch": "切换稀有度（编辑模式）",
   "tooltip.item_rarity.button": "按[%s]切换稀有度（编辑模式）"
