@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.scarasol.itemrarity.configuration.CommonConfig;
 import com.scarasol.itemrarity.data.RarityManager;
 import com.scarasol.itemrarity.network.NetworkHandler;
-import com.scarasol.itemrarity.util.FileUtil;
+import com.scarasol.itemrarity.util.ConfigUpdater;
 import com.scarasol.itemrarity.util.ItemStackUtil;
 import com.scarasol.itemrarity.util.io.ModGson;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -58,8 +58,8 @@ public class ItemRarityMod {
         event.enqueueWork(() -> {
             // 当模组加载到达尾声，检查配置并决定是否执行自动下载
             if (CommonConfig.AUTO_DOWNLOAD.get()) {
-                // 传入 false 代表“不覆盖已存在的非空配置文件夹”
-                FileUtil.downloadAllSilently(false);
+                // 直接调用底层核心方法：传入 false 代表“不覆盖”，null 代表“后台静默（无玩家执行源）”
+                ConfigUpdater.executeAllDownload(false, null);
             }
         });
     }

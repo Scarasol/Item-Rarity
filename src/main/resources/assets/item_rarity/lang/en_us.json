@@ -3,6 +3,7 @@
   "item_rarity.command.download.extract_empty": "[ItemRarity] Smart extraction complete: No configuration files found for your currently installed mods.",
   "item_rarity.command.download.extract_skipped": "[ItemRarity] (Skipped %s mods with existing configs because overwrite was false)",
   "item_rarity.command.download.extract_success": "[ItemRarity] Smart extraction complete: Updated %1$s files for %2$s installed mods.",
+  "item_rarity.command.download.md5_error": "[ItemRarity] File corruption or MD5 verification failed! Operation aborted for safety.",
   "item_rarity.command.download.not_found": "[ItemRarity] Download finished, but no files found for %s on cloud. Please check the spelling.",
   "item_rarity.command.download.reload_hint": "Please use /reload or restart the game to apply the new configurations.",
   "item_rarity.command.download.start_all": "[ItemRarity] Attempting to download the full config ZIP...",

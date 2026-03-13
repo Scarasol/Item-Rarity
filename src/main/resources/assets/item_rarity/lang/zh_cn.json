@@ -3,6 +3,7 @@
   "item_rarity.command.download.extract_empty": "[万象棱镜] 智能解压完成：压缩包中没有包含你当前所安装模组的配置文件。",
   "item_rarity.command.download.extract_skipped": "[万象棱镜] （由于未选择覆盖，已跳过 %s 个已存在配置的模组）",
   "item_rarity.command.download.extract_success": "[万象棱镜] 智能解压完成：共为 %2$s 个已安装的模组适配并更新了 %1$s 个配置文件。",
+  "item_rarity.command.download.md5_error": "[万象棱镜] 下载的文件损坏或校验失败（MD5不匹配），为了安全已终止操作！",
   "item_rarity.command.download.not_found": "[万象棱镜] 云端不存在 %s 的相关文件，请检查该模组id是否拼写正确。",
   "item_rarity.command.download.reload_hint": "请使用 /reload 命令或重启游戏以装载新的配置文件。",
   "item_rarity.command.download.start_all": "[万象棱镜] 开始下载所有的配置文件压缩包...",
